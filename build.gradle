@@ -57,11 +57,35 @@ dependencyLock {
     includeTransitives = true
 }
 
+def sparkVersion = '2.4.3'
+
 dependencies {
     runtime group: "org.jetbrains.kotlin", name: "kotlin-compiler-embeddable", version: kotlinVersion
     runtime group: "org.jetbrains.kotlin", name: "kotlin-stdlib", version: kotlinVersion
     runtime group: "org.jetbrains.kotlin", name: "kotlin-reflect", version: kotlinVersion
     runtime group: "live-plugin", name: "kotlin-compiler-wrapper", version: "0.1.2"
+
+    implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.9'
+    implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: sparkVersion
+    implementation group: 'org.apache.spark', name: 'spark-streaming_2.12', version: sparkVersion
+    implementation(group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: sparkVersion) {
+        exclude group: 'org.lz4', module: 'lz4-java'
+    }
+    implementation(group: 'org.apache.kafka', name: 'kafka-clients', version: '2.0.0') {
+        exclude group: 'org.lz4', module: 'lz4-java'
+    }
+    implementation group: 'org.apache.spark', name: 'spark-sql_2.12', version: sparkVersion
+    implementation(group: 'org.apache.spark', name: 'spark-sql-kafka-0-10_2.12', version: sparkVersion)
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.7'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.7'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7'
+    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.12', version: '2.9.7'
+
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.4'
+    testImplementation group: 'com.holdenkarau', name: 'spark-testing-base_2.12', version: sparkVersion + "_0.12.0"
+
+    testImplementation group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7.1'
 
     testCompile group: "junit", name: "junit", version: "4.12" // includes hamcrest-core
 }
@@ -69,11 +93,6 @@ dependencies {
 "Move kotlin compiler jars from plugin classpath into a separate folder so that there are no conflicts between kotlin and intellij classes"()
 
 sourceSets {
-    // Keep groovy and kotlin util source code in separate source sets, otherwise
-    // compilation fails because of inter-dependencies between kotlin and groovy files which confuse compiler,
-    // even though overall dependencies are unidirectional:
-    // pluginUtilKotlin -> pluginUtilGroovy -> main
-
     main {
         java { srcDir "src/main" }
         resources { srcDir "resources" }
