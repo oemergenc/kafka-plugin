@@ -1,0 +1,40 @@
+<idea-plugin>
+    <id>KafkaPlugin</id>
+    <name>Kafka Plugin</name>
+    <version>1.0</version>
+    <vendor email="oemergenc@gmail.com" url="http://www.github.com/oemergenc">Oemer Genc</vendor>
+
+    <description><![CDATA[
+    <html><body>This is a description</body></html>
+
+    ]]></description>
+
+    <application-components>
+        <component>
+            <implementation-class>kafkaplugin.KafkaPluginAppComponent</implementation-class>
+        </component>
+    </application-components>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+
+        <group id="Kafkaplugin.Popup">
+            <group id="Kafkaplugin.NewElementPopup" text="New" popup="true">
+                <action id="Kafkaplugin.NewTextFileAction" class="kafkaplugin.toolwindow.popup.NewTextFileAction"/>
+                <action id="Kafkaplugin.NewDirectoryAction" class="kafkaplugin.toolwindow.popup.NewDirectoryAction"/>
+                <separator/>
+                <action id="Kafkaplugin.AddNewGroovyPluginAction" class="kafkaplugin.toolwindow.addplugin.AddNewGroovyPluginAction"/>
+            </group>
+            <separator/>
+            <action id="Kafkaplugin.FileDeleteAction" class="com.intellij.openapi.fileChooser.actions.FileDeleteAction" text="Delete"/>
+        </group>
+    </actions>
+
+</idea-plugin>
