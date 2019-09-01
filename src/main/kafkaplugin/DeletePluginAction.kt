@@ -19,7 +19,7 @@ internal class DeletePluginAction : AnAction("Delete Plugin", "Delete Plugin", I
     }
 
     override fun update(event: AnActionEvent) {
-        println("DeleteAction Update")
+
     }
 
     companion object {

@@ -43,7 +43,7 @@ import kafkaplugin.Icons.addPluginIcon
 import kafkaplugin.Icons.collapseAllIcon
 import kafkaplugin.Icons.expandAllIcon
 import kafkaplugin.Icons.settingsIcon
-import kafkaplugin.toolwindow.addplugin.AddNewGroovyPluginAction
+import kafkaplugin.toolwindow.addplugin.AddNewBrokerAction
 import kafkaplugin.toolwindow.popup.NewElementPopupAction
 import kafkaplugin.toolwindow.settingsmenu.RunAllPluginsOnIDEStartAction
 import org.jetbrains.annotations.NonNls
@@ -141,7 +141,7 @@ class PluginToolWindow(val project: Project) {
 
     private fun createAddPluginsGroup() =
             DefaultActionGroup("Add Plugin", true).also {
-                it.add(AddNewGroovyPluginAction())
+                it.add(AddNewBrokerAction())
             }
 
     private fun createSettingsGroup() =

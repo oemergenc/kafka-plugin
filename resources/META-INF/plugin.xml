@@ -30,7 +30,7 @@
                 <action id="Kafkaplugin.NewTextFileAction" class="kafkaplugin.toolwindow.popup.NewTextFileAction"/>
                 <action id="Kafkaplugin.NewDirectoryAction" class="kafkaplugin.toolwindow.popup.NewDirectoryAction"/>
                 <separator/>
-                <action id="Kafkaplugin.AddNewGroovyPluginAction" class="kafkaplugin.toolwindow.addplugin.AddNewGroovyPluginAction"/>
+                <action id="Kafkaplugin.AddNewGroovyPluginAction" class="kafkaplugin.toolwindow.addplugin.AddNewBrokerAction"/>
             </group>
             <separator/>
             <action id="Kafkaplugin.FileDeleteAction" class="com.intellij.openapi.fileChooser.actions.FileDeleteAction" text="Delete"/>
