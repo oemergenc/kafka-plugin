@@ -15,6 +15,7 @@ object Icons {
             IconLoader.getIcon(if (isUnderDarcula()) "/kafkaplugin/plugin_dark.svg" else "/kafkaplugin/plugin.svg"),
             13, 13 // resize because IJ logs warning if toolwindow icon is not 13x13
     )
+    val kafkaToolWindowIcon = toSize(IconLoader.getIcon("/kafkaplugin/kafka_icon_12x12.svg"), 13, 13)
     val runPluginIcon = Actions.Execute!!
     val testPluginIcon = RunConfigurations.Junit!!
     val expandAllIcon = Actions.Expandall!!

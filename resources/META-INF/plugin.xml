@@ -9,18 +9,27 @@
 
     ]]></description>
 
-    <application-components>
-        <component>
-            <implementation-class>kafkaplugin.KafkaPluginAppComponent</implementation-class>
-        </component>
-    </application-components>
+
+    <!--    <application-components>-->
+    <!--        <component>-->
+    <!--            <implementation-class>kafkaplugin.KafkaPluginAppComponent</implementation-class>-->
+    <!--        </component>-->
+    <!--    </application-components>-->
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="173.0"/>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <toolWindow id="Kafka Plugin" anchor="right" icon="AllIcons.Toolwindows.ToolWindowFavorites" secondary="true"
+                    factoryClass="kafkaplugin.toolwindow.KafkaBrokerViewToolWindowFactory"/>
     </extensions>
+
+    <project-components>
+        <component>
+            <implementation-class>kafkaplugin.broker.KafkaBrokerManager</implementation-class>
+            <option name="workspace" value="true"/>
+        </component>
+    </project-components>
 
     <actions>
         <!-- Add your actions here -->
@@ -30,10 +39,12 @@
                 <action id="Kafkaplugin.NewTextFileAction" class="kafkaplugin.toolwindow.popup.NewTextFileAction"/>
                 <action id="Kafkaplugin.NewDirectoryAction" class="kafkaplugin.toolwindow.popup.NewDirectoryAction"/>
                 <separator/>
-                <action id="Kafkaplugin.AddNewGroovyPluginAction" class="kafkaplugin.toolwindow.addplugin.AddNewBrokerAction"/>
+                <action id="Kafkaplugin.AddNewGroovyPluginAction"
+                        class="kafkaplugin.toolwindow.addplugin.AddNewBrokerAction"/>
             </group>
             <separator/>
-            <action id="Kafkaplugin.FileDeleteAction" class="com.intellij.openapi.fileChooser.actions.FileDeleteAction" text="Delete"/>
+            <action id="Kafkaplugin.FileDeleteAction" class="com.intellij.openapi.fileChooser.actions.FileDeleteAction"
+                    text="Delete"/>
         </group>
     </actions>
 

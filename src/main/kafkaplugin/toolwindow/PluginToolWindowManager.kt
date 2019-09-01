@@ -37,7 +37,7 @@ import com.intellij.ui.treeStructure.Tree
 import com.intellij.util.EditSourceOnDoubleClickHandler
 import com.intellij.util.EditSourceOnEnterKeyHandler
 import com.intellij.util.ui.tree.TreeUtil
-import kafkaplugin.DeletePluginAction
+import kafkaplugin.DeleteBrokerAction
 import kafkaplugin.Icons
 import kafkaplugin.Icons.addPluginIcon
 import kafkaplugin.Icons.collapseAllIcon
@@ -123,7 +123,7 @@ class PluginToolWindow(val project: Project) {
 
         val actionGroup = DefaultActionGroup().also {
             it.add(createAddPluginsGroup().withIcon(addPluginIcon))
-            it.add(DeletePluginAction())
+            it.add(DeleteBrokerAction())
             it.addSeparator()
             it.add(ExpandAllAction().withIcon(expandAllIcon))
             it.add(CollapseAllAction().withIcon(collapseAllIcon))
@@ -185,7 +185,7 @@ class PluginToolWindow(val project: Project) {
             val action = NewElementPopupAction()
             action.registerCustomShortcutSet(CustomShortcutSet(*shortcutsOf("NewElement")), tree)
 
-            CustomizationUtil.installPopupHandler(tree, "LivePlugin.Popup", ActionPlaces.UNKNOWN)
+            CustomizationUtil.installPopupHandler(tree, "KafkaPlugin.Popup", ActionPlaces.UNKNOWN)
         }
 
         private fun createFsTree(project: Project): FileSystemTree {
