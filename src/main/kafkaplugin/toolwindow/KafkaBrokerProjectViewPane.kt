@@ -8,7 +8,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.ActionCallback
 import com.intellij.openapi.vfs.VirtualFile
 import kafkaplugin.broker.KafkaBrokerManager
-import kafkaplugin.broker.KafkaBrokerTopicManager
 import javax.swing.Icon
 import javax.swing.JComponent
 

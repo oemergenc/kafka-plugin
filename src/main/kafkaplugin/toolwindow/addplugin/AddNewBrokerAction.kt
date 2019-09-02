@@ -1,7 +1,6 @@
 package kafkaplugin.toolwindow.addplugin
 
 import com.intellij.ide.IdeBundle
-import com.intellij.ide.favoritesTreeView.FavoritesManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
@@ -10,6 +9,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
 import kafkaplugin.Icons
+import kafkaplugin.broker.KafkaBrokerManager
 
 open class AddNewBrokerAction : AnAction("New broker", "Add a new Broker Connection", Icons.newPluginIcon), DumbAware {
 
@@ -23,7 +23,7 @@ open class AddNewBrokerAction : AnAction("New broker", "Add a new Broker Connect
     }
 
     fun doAddNewBroker(project: Project): String? {
-        val favoritesManager = FavoritesManager.getInstance(project)
+        val brokerManager = KafkaBrokerManager.getInstance(project)
         val name = Messages.showInputDialog(project,
                 "Please enter the broker bootstrap address",
                 "Add a new broker connection",
@@ -36,7 +36,7 @@ open class AddNewBrokerAction : AnAction("New broker", "Add a new Broker Connect
             override fun canClose(inputString: String): Boolean {
                 var inputString = inputString
                 inputString = inputString.trim { it <= ' ' }
-                if (favoritesManager.availableFavoritesListNames.contains(inputString)) {
+                if (brokerManager.getAvailableBrokerListNames().contains(inputString)) {
                     Messages.showErrorDialog(project, "There was a problem while creating the broker", "Broker could not be added")
                     return false
                 }
@@ -44,12 +44,12 @@ open class AddNewBrokerAction : AnAction("New broker", "Add a new Broker Connect
             }
         })
         if (name == null || name.length == 0) return null
-        favoritesManager.createNewList(name)
+        brokerManager.createNewList(name)
         return name
     }
 
     private fun getUniqueName(project: Project): String {
-        val names = FavoritesManager.getInstance(project).availableFavoritesListNames
+        val names = KafkaBrokerManager.getInstance(project).getAvailableBrokerListNames()
         var i = 0
         while (true) {
             val newName = IdeBundle.message("favorites.list.unnamed", if (i > 0) i else "")

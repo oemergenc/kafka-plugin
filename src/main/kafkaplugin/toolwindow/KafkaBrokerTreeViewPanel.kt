@@ -8,7 +8,9 @@ import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.wm.ex.ToolWindowEx
+import com.intellij.psi.SmartPsiElementPointer
 import com.intellij.ui.treeStructure.actions.CollapseAllAction
+import com.intellij.util.ArrayUtil
 import com.intellij.util.EditSourceOnDoubleClickHandler
 import com.intellij.util.EditSourceOnEnterKeyHandler
 import kafkaplugin.DeleteBrokerAction
@@ -17,13 +19,14 @@ import kafkaplugin.broker.KafkaBrokerManager
 import kafkaplugin.toolwindow.addplugin.AddNewBrokerAction
 import kafkaplugin.toolwindow.settingsmenu.RunAllPluginsOnIDEStartAction
 import java.awt.GridLayout
+import java.util.*
 import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.JPanel
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.DefaultTreeModel
 
-class KafkaBrokerTreeViewPanel(myProject: Project) : SimpleToolWindowPanel(true),
+class KafkaBrokerTreeViewPanel(val myProject: Project) : SimpleToolWindowPanel(true),
         DataProvider, Disposable {
 
     private val myKafkaBrokerManager: KafkaBrokerManager = KafkaBrokerManager.getInstance(myProject)
@@ -58,7 +61,37 @@ class KafkaBrokerTreeViewPanel(myProject: Project) : SimpleToolWindowPanel(true)
     }
 
     override fun getData(dataId: String): Any? {
-        println(dataId)
+//        val result = ArrayList<KafkaBrokerTreeNodeDescriptor>()
+//        val selectedNodeDescriptors = KafkaBrokerTreeUtil.getSelectedNodeDescriptors(myTree)
+//        for (selectedNodeDescriptor in selectedNodeDescriptors) {
+//            if (KafkaBrokerTreeUtil.getProvider(myKafkaBrokerManager, selectedNodeDescriptor) != null) {
+//                continue
+//            }
+//            val root = selectedNodeDescriptor.getBrokerRoot()
+//            if (root != null && root.element is KafkaBrokerListNode) {
+//                result.add(selectedNodeDescriptor)
+//            }
+//        }
+//        return result.toTypedArray()
+//
+//        val descriptors = KafkaBrokerTreeUtil.getSelectedNodeDescriptors(myTree)
+//        if (descriptors.isNotEmpty()) {
+//            val nodes = java.util.ArrayList<AbstractTreeNode<*>>()
+//            for (descriptor in descriptors) {
+//                nodes.add(descriptor.element)
+//            }
+//            return myBrokerTreeStructure.getDataFromProviders(nodes, dataId)
+//        }
+//        return null
+//        val listNames = getSelectedElements(String::class.java)
+//        val selectedElements = SmartList<Navigatable>()
+//        for (listname in listNames) {
+//            selectedElements.addAll(
+//                    ContainerUtil.map<VirtualFile, OpenFileDescriptor>(myKafkaBrokerManager.getVirtualFiles(listname, false)) { file -> OpenFileDescriptor(myProject, file) })
+//        }
+//        selectedElements.addAll(getSelectedElements(Navigatable::class.java))
+//        return if (selectedElements.isEmpty()) null else selectedElements.toTypedArray()
+//        return myTree
         return null
     }
 
@@ -114,4 +147,34 @@ class KafkaBrokerTreeViewPanel(myProject: Project) : SimpleToolWindowPanel(true)
             }.also {
                 it.add(RunAllPluginsOnIDEStartAction())
             }
+
+    private fun <T> getSelectedElements(klass: Class<T>): List<T> {
+        val elements = getSelectedNodeElements()
+        val result = ArrayList<T>()
+        if (elements == null) {
+            return result
+        }
+        for (element in elements) {
+            if (element == null) continue
+            if (klass.isAssignableFrom(element!!.javaClass)) {
+                result.add(element as T)
+            }
+        }
+        return result
+    }
+
+    private fun getSelectedNodeElements(): Array<Any> {
+        val selectedNodeDescriptors = KafkaBrokerTreeUtil.getSelectedNodeDescriptors(myTree)
+        val result = ArrayList<Any>()
+        for (selectedNodeDescriptor in selectedNodeDescriptors) {
+            if (selectedNodeDescriptor != null) {
+                var value: Any? = selectedNodeDescriptor.element.value
+                if (value is SmartPsiElementPointer<*>) {
+                    value = value.element
+                }
+                result.add(value!!)
+            }
+        }
+        return ArrayUtil.toObjectArray(result)
+    }
 }
