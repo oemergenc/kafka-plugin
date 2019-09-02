@@ -12,7 +12,7 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VirtualFile
 
 
-internal class DeletePluginAction : AnAction("Delete Plugin", "Delete Plugin", Icons.deletePluginIcon), DumbAware {
+internal class DeleteBrokerAction : AnAction("Delete Plugin", "Delete Plugin", Icons.deletePluginIcon), DumbAware {
 
     override fun actionPerformed(event: AnActionEvent) {
         println("DeleteAction")
@@ -23,7 +23,7 @@ internal class DeletePluginAction : AnAction("Delete Plugin", "Delete Plugin", I
     }
 
     companion object {
-        private val logger = Logger.getInstance(DeletePluginAction::class.java)
+        private val logger = Logger.getInstance(DeleteBrokerAction::class.java)
 
         private fun userDoesNotWantToRemovePlugins(pluginRoots: Collection<VirtualFile>, project: Project?): Boolean {
             val pluginIds = pluginRoots.map { it.name }
